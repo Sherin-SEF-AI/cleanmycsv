@@ -5,25 +5,25 @@ from pydantic import field_validator
 
 class Settings(BaseSettings):
     # Database
-    DATABASE_URL: str = "postgresql://cleancsv:password123@localhost:5433/cleancsv"
-    REDIS_URL: str = "redis://localhost:6380/0"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://cleancsv:password123@localhost:5433/cleancsv")
+    REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6380/0")
     
     # API Keys
-    GROQ_API_KEY: str = "your-groq-api-key-here"
+    GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "your-groq-api-key-here")
     
     # JWT
-    JWT_SECRET_KEY: str = "your-jwt-secret-key-here"
+    JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "your-jwt-secret-key-here")
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
     # Environment
-    ENVIRONMENT: str = "development"
-    DEBUG: bool = True
+    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+    DEBUG: bool = os.getenv("DEBUG", "true").lower() == "true"
     
     # Security
-    SECRET_KEY: str = "your-super-secret-key-change-in-production"
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "your-super-secret-key-change-in-production")
     ALLOWED_HOSTS: List[str] = ["*"]
-    CORS_ORIGINS: List[str] = ["*"]
+    CORS_ORIGINS: List[str] = ["*", "https://cleanmycsv.online", "https://www.cleanmycsv.online"]
     
     # File upload
     MAX_FILE_SIZE: int = 50 * 1024 * 1024  # 50MB
